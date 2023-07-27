@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HW 5: Robo Dealer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color:lightslategrey;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: lightsteelblue;
+      color: #fff;
+      margin: 0;
+    }
+
+    #container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: lightsteelblue;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: lightsteelblue;
+    }
+
+    #card_hand {
+      margin-top: 20px;
+      border: 2px solid lightsteelblue;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    #card_hand p {
+      margin: 5px 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<body>
+
+<h1>HW 5: Robo Dealer</h1>
+
+<div id="container">
+  <div>
+    <button onclick="dealHand();">Deal Hand</button>
+    <hr>
+    <div id="card_hand"></div>
+  </div>
+</div>
+
+<script>
+
+  //Define the Card object with 'value' and 'suit' properties
+  function Card(value, suit) {
+    this.value = value;
+    this.suit = suit;
+  }
+
+  //Create an array of 52 Card objects to represent all unique cards in a deck
+  const deck = [];
+
+  const suits = ['Spade', 'Heart', 'Diamond', 'Club'];
+  const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
+
+  for (const suit of suits) {
+    for (const value of values) {
+      deck.push(new Card(value, suit));
+    }
+  }
+
+    //Define a function to randomly select 5 cards from the deck
+    const dealHand = () => {
+    const handSize = 5;
+    const hand = [];
+
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+
+    // Select the first 5 cards from the shuffled deck
+    for (let i = 0; i < handSize; i++) {
+      hand.push(deck[i]);
+    }
+    // Clear the currently-displayed hand
+    $("#card_hand").empty();
+
+    // Display information about the selected cards on the page
+    for (const card of hand) {
+      let cardName = card.value;
+      cardName += ' of ' + card.suit + 's';
+      $("#card_hand").append("<p>" + cardName + "</p>");
+    }
+
+    // prevent page reload
+    return false;
+  };
+</script>
+
+</body>
+</html>
